@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>web by Sidiq</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@100..900&amp;family=Playfair+Display:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#ff8eb7",
+                    "surface": "#fff8f9",
+                    "tertiary-fixed-dim": "#ffb0ca",
+                    "surface-dim": "#e1d8db",
+                    "on-secondary-container": "#78603f",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed-variant": "#7d2744",
+                    "primary-fixed": "#ffd9e0",
+                    "primary-fixed-dim": "#ffb1c3",
+                    "inverse-surface": "#342f31",
+                    "surface-variant": "#eae0e3",
+                    "background": "#fff8f9",
+                    "tertiary-fixed": "#ffd9e3",
+                    "secondary-fixed-dim": "#e0c299",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#ff8fad",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#fedeb3",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed": "#3f0019",
+                    "surface-container-high": "#efe6e9",
+                    "on-tertiary-fixed": "#3e001f",
+                    "surface-container-highest": "#eae0e3",
+                    "on-surface-variant": "#544246",
+                    "surface-container-low": "#fbf1f4",
+                    "secondary": "#725b39",
+                    "outline-variant": "#dac0c5",
+                    "primary": "#9b3f5b",
+                    "outline": "#877276",
+                    "on-background": "#1f1a1d",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#a33564",
+                    "on-surface": "#1f1a1d",
+                    "inverse-on-surface": "#f8eef1",
+                    "inverse-primary": "#ffb1c3",
+                    "on-secondary-fixed": "#281801",
+                    "on-tertiary-fixed-variant": "#841c4c",
+                    "secondary-fixed": "#fedeb3",
+                    "on-tertiary-container": "#80184a",
+                    "on-primary-container": "#792441",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#fff8f9",
+                    "surface-tint": "#9b3f5b",
+                    "on-secondary-fixed-variant": "#584324",
+                    "on-error": "#ffffff",
+                    "surface-container": "#f5ebee"
+            },
+            "fontFamily": {
+                    "body-lg": ["EB Garamond"],
+                    "body-md": ["EB Garamond"],
+                    "label-md": ["Playfair Display"],
+                    "headline-md": ["Playfair Display"],
+                    "display-lg": ["Playfair Display"],
+                    "button-text": ["Playfair Display"]
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "stack-sm": "12px",
+                    "stack-md": "32px",
+                    "container-max": "1140px",
+                    "margin-mobile": "16px",
+                    "stack-lg": "80px",
+                    "unit": "8px"
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            background: #fff8f9;
+        }
+        .page-transition {
+            transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.8s ease;
+        }
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+        #petal-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .envelope-flap-transition {
+            transition: transform 0.6s ease-in-out;
+            transform-origin: top;
+        }
+        .message-staggered > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .message-staggered.active > * {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .message-staggered > *:nth-child(2) { transition-delay: 0.2s; }
+        .message-staggered > *:nth-child(3) { transition-delay: 0.4s; }
+        .message-staggered > *:nth-child(4) { transition-delay: 0.6s; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-background/20 backdrop-blur-md flex justify-center items-center px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">Flower</span>
+<h1 class="font-display-lg text-display-lg text-primary italic"> confess. -By Sidiq-</h1>
+</div>
+</header>
+<!-- Page 1: Home -->
+<div class="relative w-full h-full flex flex-col items-center justify-center page-transition overflow-hidden" id="page1" style="background: radial-gradient(circle, #FFF0F5 0%, #FFE4EF 100%);">
+<canvas id="petal-canvas"></canvas>
+<div class="relative z-20 flex flex-col items-center justify-center">
+<!-- Flower Bouquet & Envelope Centerpiece -->
+<div class="relative float-animation cursor-pointer transform scale-75 md:scale-100" id="bouquet-container" onclick="openEnvelope()">
+<svg class="drop-shadow-2xl" fill="none" height="500" viewbox="0 0 400 550" width="400" xmlns="http://www.w3.org/2000/svg">
+<!-- Stems Bundle -->
+<path d="M190 520C195 440 180 380 160 300" stroke="#4A6741" stroke-linecap="round" stroke-width="5"></path>
+<path d="M200 520C200 440 200 380 200 300" stroke="#4A6741" stroke-linecap="round" stroke-width="6"></path>
+<path d="M210 520C205 440 220 380 240 300" stroke="#4A6741" stroke-linecap="round" stroke-width="5"></path>
+<!-- Leaves (Rich Set) -->
+<path d="M140 400C100 380 80 430 130 450C100 480 150 470 140 400Z" fill="#4A9E48"></path>
+<path d="M260 410C300 390 320 440 270 460C300 490 250 480 260 410Z" fill="#6DBF6B"></path>
+<path d="M180 350C150 330 140 370 170 380C150 400 190 390 180 350Z" fill="#6DBF6B"></path>
+<path d="M230 360C260 340 270 380 240 390C260 410 220 400 230 360Z" fill="#4A9E48"></path>
+<path d="M120 320C90 300 80 350 110 360C80 380 130 370 120 320Z" fill="#6DBF6B"></path>
+<path d="M280 320C310 300 320 350 290 360C320 380 270 370 280 320Z" fill="#4A9E48"></path>
+<!-- Large Blooming Roses (3) -->
+<!-- Rose 1 (Left) -->
+<g transform="translate(145, 230)">
+<circle cx="0" cy="0" fill="#FF8FAD" r="55"></circle>
+<path d="M-40 -10C-20 -40 20 -40 40 -10C50 20 20 45 0 45C-20 45 -50 20 -40 -10Z" fill="#FFB7CC" opacity="0.6"></path>
+<circle cx="0" cy="0" fill="#9B3F5B" opacity="0.1" r="25"></circle>
+</g>
+<!-- Rose 2 (Center High) -->
+<g transform="translate(200, 180)">
+<circle cx="0" cy="0" fill="#FFB7CC" r="60"></circle>
+<path d="M-45 -15C-25 -50 25 -50 45 -15C55 25 25 50 0 50C-25 50 -55 25 -45 -15Z" fill="#FF8FAD" opacity="0.6"></path>
+<circle cx="0" cy="0" fill="#9B3F5B" opacity="0.1" r="30"></circle>
+</g>
+<!-- Rose 3 (Right) -->
+<g transform="translate(255, 230)">
+<circle cx="0" cy="0" fill="#FF8FAD" r="55"></circle>
+<path d="M-40 -10C-20 -40 20 -40 40 -10C50 20 20 45 0 45C-20 45 -50 20 -40 -10Z" fill="#FFB7CC" opacity="0.6"></path>
+<circle cx="0" cy="0" fill="#9B3F5B" opacity="0.1" r="25"></circle>
+</g>
+<!-- Small Flower Buds -->
+<circle cx="120" cy="160" fill="#FFB7CC" r="18"></circle>
+<circle cx="280" cy="160" fill="#FFDDE8" r="16"></circle>
+<circle cx="200" cy="270" fill="#FFB7CC" r="15"></circle>
+<circle cx="160" cy="120" fill="#FFDDE8" r="14"></circle>
+<circle cx="240" cy="120" fill="#FFB7CC" r="14"></circle>
+<!-- Ribbon Bow -->
+<path d="M165 440C140 420 140 470 200 450C260 470 260 420 235 440L200 450L165 440Z" fill="#D4537E"></path>
+<path d="M185 450L175 500L200 470L225 500L215 450" fill="#D4537E"></path>
+<circle cx="200" cy="445" fill="#9B3F5B" r="12"></circle>
+<!-- THE ENVELOPE (Tucked in) -->
+<g id="envelope-group" transform="translate(190, 260) rotate(8)">
+<rect fill="#FDF5E6" height="80" rx="4" stroke="#E8C9A0" stroke-width="1" width="120"></rect>
+<path d="M0 80L60 40L120 80" fill="none" stroke="#E8C9A0" stroke-width="1"></path>
+<!-- Envelope Flap -->
+<path class="envelope-flap-transition" d="M0 0L60 45L120 0H0Z" fill="#F5E6D0" id="envelope-flap" stroke="#E8C9A0" stroke-width="1"></path>
+<!-- Seal -->
+<circle cx="60" cy="42" fill="#9B3F5B" r="10"></circle>
+<text fill="white" font-family="serif" font-size="12" x="56" y="47">✿</text>
+</g>
+</svg>
+</div>
+<!-- Action Button -->
+<button class="mt-stack-md px-10 py-4 bg-primary text-on-primary rounded-full font-button-text text-button-text italic tracking-wide hover:scale-105 transition-all duration-300 shadow-lg flex items-center gap-2" id="read-button" onclick="openEnvelope()">
+<span class="material-symbols-outlined">mail</span>
+                Baca Pesan
+            </button>
+</div>
+</div>
+<!-- Page 2: Message -->
+<div class="fixed inset-0 w-full h-full bg-[#FFF5F8] z-40 hidden flex items-center justify-center p-6 md:p-margin-desktop overflow-y-auto" id="page2">
+<canvas class="fixed inset-0 pointer-events-none" id="burst-canvas"></canvas>
+<div class="max-w-[700px] w-full bg-[#FFFAF5] rounded-[16px] shadow-[0_20px_50px_rgba(139,34,82,0.08)] p-10 md:p-16 relative message-staggered overflow-hidden border border-tertiary-container/10">
+<!-- Decorative SVG Rose -->
+<div class="absolute -top-10 -right-10 opacity-20">
+<svg fill="#9B3F5B" height="200" viewbox="0 0 100 100" width="200">
+<circle cx="50" cy="50" r="30"></circle>
+<circle cx="50" cy="20" r="15"></circle>
+<circle cx="80" cy="50" r="15"></circle>
+<circle cx="50" cy="80" r="15"></circle>
+<circle cx="20" cy="50" r="15"></circle>
+</svg>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary mb-stack-md">-untuk jepa-</h2>
+<p class="font-body-lg text-body-lg text-on-surface mb-stack-sm leading-relaxed">
+                -Kamu imup-
+            </p>
+<p class="font-body-lg text-body-lg text-on-surface mb-stack-sm leading-relaxed">
+                -isi pesan-
+            </p>
+<p class="font-body-lg text-body-lg text-on-surface mb-stack-lg italic opacity-80">
+                -dengan penuh kasih <3-,<br/>
+                -pengirim-
+            </p>
+<div class="flex justify-center">
+<button class="px-8 py-3 border border-primary text-primary rounded-full font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-all duration-300 flex items-center gap-2" onclick="closeMessage()">
+<span class="material-symbols-outlined">close</span>
+                    Tutup Pesan
+                </button>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="fixed bottom-0 w-full py-8 bg-surface-container-low/30 flex flex-col items-center justify-center gap-unit z-10">
+<p class="font-label-md text-label-md text-secondary"> Web by Sidiq</p>
+<div class="flex gap-4">
+<a class="font-label-md text-label-md text-secondary-fixed-variant hover:text-primary transition-colors duration-300" href="#">Instagram</a>
+<a class="font-label-md text-label-md text-secondary-fixed-variant hover:text-primary transition-colors duration-300" href="#">calmframe___</a>
+</div>
+</footer>
+<script>
+        // Particle System
+        const canvas = document.getElementById('petal-canvas');
+        const ctx = canvas.getContext('2d');
+        const burstCanvas = document.getElementById('burst-canvas');
+        const bCtx = burstCanvas.getContext('2d');
+        
+        let petals = [];
+        let mouse = { x: -1000, y: -1000 };
+        let animationFrame;
+        let isStopped = false;
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            burstCanvas.width = window.innerWidth;
+            burstCanvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        class Petal {
+            constructor(isBurst = false) {
+                this.init(isBurst);
+            }
+            init(isBurst) {
+                this.x = Math.random() * canvas.width;
+                this.y = isBurst ? Math.random() * canvas.height : -20;
+                this.size = Math.random() * 8 + 4;
+                this.speed = Math.random() * 1.5 + 0.5;
+                this.angle = Math.random() * Math.PI * 2;
+                this.sway = Math.random() * 0.05 + 0.01;
+                this.color = Math.random() > 0.5 ? '#FF8FAD' : '#FFB7CC';
+                this.opacity = Math.random() * 0.6 + 0.2;
+                this.isBurst = isBurst;
+                this.vx = (Math.random() - 0.5) * (isBurst ? 10 : 2);
+                this.vy = isBurst ? (Math.random() - 0.5) * 10 : this.speed;
+            }
+            update() {
+                if (this.isBurst) {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.vx *= 0.98;
+                    this.vy *= 0.98;
+                    this.opacity -= 0.005;
+                } else {
+                    this.y += this.speed;
+                    this.angle += this.sway;
+                    this.x += Math.sin(this.angle);
+
+                    const dx = this.x - mouse.x;
+                    const dy = this.y - mouse.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 100) {
+                        const force = (100 - dist) / 100;
+                        this.x += (dx / dist) * force * 5;
+                        this.y += (dy / dist) * force * 5;
+                    }
+
+                    if (this.y > canvas.height) {
+                        this.y = -20;
+                        this.x = Math.random() * canvas.width;
+                    }
+                }
+            }
+            draw(context) {
+                context.save();
+                context.translate(this.x, this.y);
+                context.rotate(this.angle);
+                context.globalAlpha = this.opacity;
+                context.fillStyle = this.color;
+                context.beginPath();
+                context.moveTo(0, 0);
+                context.bezierCurveTo(this.size, -this.size, this.size*2, 0, 0, this.size*2);
+                context.bezierCurveTo(-this.size*2, 0, -this.size, -this.size, 0, 0);
+                context.fill();
+                context.restore();
+            }
+        }
+
+        function initPetals() {
+            petals = Array.from({ length: 30 }, () => new Petal());
+            animate();
+        }
+
+        function animate() {
+            if (isStopped) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            petals.forEach(p => {
+                p.update();
+                p.draw(ctx);
+            });
+            animationFrame = requestAnimationFrame(animate);
+        }
+
+        function stopPetals() {
+            isStopped = true;
+            cancelAnimationFrame(animationFrame);
+        }
+
+        function openEnvelope() {
+            const page1 = document.getElementById('page1');
+            const page2 = document.getElementById('page2');
+            const flap = document.getElementById('envelope-flap');
+            const readBtn = document.getElementById('read-button');
+
+            readBtn.style.opacity = '0';
+            readBtn.style.pointerEvents = 'none';
+            stopPetals();
+
+            flap.style.transform = 'rotateX(-160deg)';
+
+            setTimeout(() => {
+                const rect = document.getElementById('envelope-group').getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                page1.style.transformOrigin = `${centerX}px ${centerY}px`;
+                page1.style.transform = 'scale(10)';
+                page1.style.opacity = '0';
+
+                setTimeout(() => {
+                    page2.classList.remove('hidden');
+                    page2.classList.add('flex');
+                    initPage2Petals();
+                    setTimeout(() => {
+                        document.querySelector('.message-staggered').classList.add('active');
+                    }, 100);
+                }, 600);
+            }, 400);
+        }
+
+        let burstPetals = [];
+        function initPage2Petals() {
+            burstPetals = Array.from({ length: 60 }, () => new Petal(true));
+            animateBurst();
+        }
+
+        function animateBurst() {
+            bCtx.clearRect(0, 0, burstCanvas.width, burstCanvas.height);
+            let active = false;
+            burstPetals.forEach(p => {
+                if (p.opacity > 0) {
+                    p.update();
+                    p.draw(bCtx);
+                    active = true;
+                }
+            });
+            if (active) requestAnimationFrame(animateBurst);
+        }
+
+        function closeMessage() {
+            const page1 = document.getElementById('page1');
+            const page2 = document.getElementById('page2');
+            const flap = document.getElementById('envelope-flap');
+            const readBtn = document.getElementById('read-button');
+
+            document.querySelector('.message-staggered').classList.remove('active');
+            
+            setTimeout(() => {
+                page1.style.opacity = '1';
+                page1.style.transform = 'scale(1)';
+                page2.classList.add('hidden');
+                page2.classList.remove('flex');
+                
+                setTimeout(() => {
+                    flap.style.transform = 'rotateX(0deg)';
+                    readBtn.style.opacity = '1';
+                    readBtn.style.pointerEvents = 'auto';
+                    isStopped = false;
+                    initPetals();
+                }, 800);
+            }, 400);
+        }
+
+        initPetals();
+    </script>
+</body></html>
